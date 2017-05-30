@@ -1,0 +1,59 @@
+package pers.landriesnidis.easysocket;
+
+import java.net.Socket;
+
+
+public class Example {
+	
+	public static void main(String[] args) {
+		TestListener listener = new TestListener(12345);
+		listener.start();
+	}
+}
+
+class TestListener extends BaseListener<BaseServerSocketThread>{
+
+	public TestListener(int port) {
+		super(port);
+	}
+	
+	@Override
+	protected void onStart() {
+		System.out.println("服务器已启动,监听端口号为:" + getLocalPort());
+	}
+	
+	@Override
+	protected void onConnection(Socket socket) {
+		
+	}
+
+	@Override
+	protected BaseServerSocketThread onHandOver(Socket socket) {
+		return new BaseServerSocketThread(socket) {
+			
+			@Override
+			public void onConnected() {
+				addSocket(this);
+				System.out.println("新终端已接入服务器:" + this.getSocket().getRemoteSocketAddress());
+			}
+			
+			@Override
+			public void onClose() {
+				delSocket(this);
+				System.out.println("终端与服务器失去连接:" + this.getSocket().getRemoteSocketAddress());
+			}
+			
+			@Override
+			public void onReceiveData(String strline) {
+				System.out.println(getSocket().getRemoteSocketAddress() + "\t" + strline);
+				for(BaseServerSocketThread bs:getSockets()){
+					if(!bs.equals(this)){
+						System.out.println("消息转发至[" + bs.getSocket().getRemoteSocketAddress() +"]");
+						bs.sendMessage(strline);
+					}
+				}
+			}
+		};
+	}
+	
+}

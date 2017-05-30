@@ -1,0 +1,10 @@
+INDEX VERSION 1.126+E:\GitHub\EasySocket\.metadata\.plugins\org.eclipse.jdt.core
+2078832215.index
+579544839.index
+3356557385.index
+546526352.index
+2150307654.index
+392300580.index
+3186552558.index
+1188153846.index
+394806566.index
