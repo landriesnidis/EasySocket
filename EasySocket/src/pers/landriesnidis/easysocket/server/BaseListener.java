@@ -8,9 +8,8 @@ import java.net.Socket;
 import pers.landriesnidis.easysocket.server.manager.BasicSocketManager;
 
 /**
- * 
+ * 基本的Socket侦听类
  * @author Landriesnidis
- *
  * @param <S>
  */
 public abstract class BaseListener<S extends BaseServerSocketThread> extends Thread {

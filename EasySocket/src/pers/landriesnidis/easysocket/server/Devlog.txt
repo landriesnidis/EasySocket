@@ -1,0 +1,13 @@
+@Date 2017年7月3日21:47:49
+@File BaseServerSocketThread.java
+{
+	(1)
+	在构造函数中禁用了nagle算法：
+	-- socket.setTcpNoDelay(true);
+	参考了博客文章（http://blog.csdn.net/huang_xw/article/details/7340241）中的四项实验，
+	在非琐碎且频繁的网络环境下禁用nagle算法有利于缩短通信的延迟。
+	
+	(2)
+	抽象方法onClose()更名为onClosed()
+	在close()中所有操作结束后被调用。
+}
