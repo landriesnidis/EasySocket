@@ -44,14 +44,12 @@ public class SocketTCPConnector extends Thread {
     //关闭
     public void close(){
         isRun = false;
-        try {
-			reader.close();
-			writer.close();
+		try {
 			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        socket = null;
+		interrupt();
     }
     
     /**
@@ -59,7 +57,7 @@ public class SocketTCPConnector extends Thread {
      *
      * @param str 要发送的字符串
      */
-    public void send(String str) {
+    public void sendString(String str) {
         if (writer != null) {
             writer.write(str + "\n");
             writer.flush();
@@ -67,6 +65,14 @@ public class SocketTCPConnector extends Thread {
         	listener.onStateChanged(STATUS_CODE_UNCONNECTION);
         }
     }
+    
+    /**
+     * 获取Socket对象
+     * @return
+     */
+    public Socket getSocket() {
+		return socket;
+	}
 
 	@Override
 	public void run() {
@@ -88,7 +94,7 @@ public class SocketTCPConnector extends Thread {
 			} catch (UnknownHostException e) {
 				listener.onStateChanged(STATUS_CODE_UNKNOWNHOST);
 			} catch (IOException e) {
-				listener.onStateChanged(STATUS_CODE_EXCEPTION);
+				if(isRun)listener.onStateChanged(STATUS_CODE_EXCEPTION);
 			}
 			if (isRun)
 				listener.onStateChanged(STATUS_CODE_INTERRUPTION);
