@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Vector;
+
+import pers.landriesnidis.easysocket.server.manager.BasicSocketManager;
 
 /**
  * 
@@ -17,7 +18,7 @@ public abstract class BaseListener<S extends BaseServerSocketThread> extends Thr
 	private final int localPort;
 	private ServerSocket serverSocket;
 	private boolean isRun = true;
-	private Vector<S> vectorSockets = new Vector<S>();
+	private BasicSocketManager<S> SocketManager = new BasicSocketManager<>();
 
 	/**
 	 * 构造方法
@@ -63,7 +64,7 @@ public abstract class BaseListener<S extends BaseServerSocketThread> extends Thr
 	}
 
 	/**
-	 * 当
+	 * 当建立通信后，将该Socket连接移交给处理具体事务的对象(实现方法的BaseServerSocketThread对象)并返回
 	 * @return
 	 */
 	protected abstract S onHandOver(Socket socket);
@@ -87,26 +88,18 @@ public abstract class BaseListener<S extends BaseServerSocketThread> extends Thr
 	}
 	
 	/**
-	 * 获取动态数组
+	 * 获取Socket通信管理器
 	 * @return
 	 */
-	public Vector<S> getSockets() {
-		return vectorSockets;
+	public BasicSocketManager<S> getSocketManager() {
+		return SocketManager;
 	}
 	
 	/**
-	 * 从数组移除指定项
-	 * @param s
+	 * 设置Socket通信管理器
+	 * @param socketManager
 	 */
-	public void delSocket(S s) {
-		vectorSockets.remove(s);
-	}
-	
-	/**
-	 * 向数组中添加元素
-	 * @param s
-	 */
-	public void addSocket(S s){
-		vectorSockets.add(s);
+	public void setSocketManager(BasicSocketManager<S> socketManager) {
+		SocketManager = socketManager;
 	}
 }

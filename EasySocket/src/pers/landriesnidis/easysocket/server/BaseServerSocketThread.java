@@ -12,6 +12,10 @@ public abstract class BaseServerSocketThread extends Thread {
 	private boolean isRun = true;
 	private String encode = "UTF-8";
 	
+	/**
+	 * BaseServerSocketThread是抽象类，如果要直接构造，需要立即实现抽象方法
+	 * @param socket 用于通信的socket对象
+	 */
 	public BaseServerSocketThread(Socket socket) {
 		this.socket = socket;
 	}
@@ -74,7 +78,6 @@ public abstract class BaseServerSocketThread extends Thread {
 			// 返回此套接字的输入流
 			String line = null;
 			while (((line = br.readLine()) != null) && isRun) {
-//				System.out.println(socket.getRemoteSocketAddress() + " : " + line);
 				onReceiveData(line);
 			}
 		} catch (UnsupportedEncodingException e) {
@@ -92,7 +95,19 @@ public abstract class BaseServerSocketThread extends Thread {
 		}
 	}
 
+	/**
+	 * 获取Socket对象
+	 * @return
+	 */
 	public Socket getSocket() {
 		return socket;
+	}
+	
+	/**
+	 * 设置字符编码
+	 * @param encode
+	 */
+	public void setEncode(String encode){
+		this.encode = encode;
 	}
 }

@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="test.ServerSocketThread"/>
 <fullyQualifiedTypeName name="pers.landriesnidis.easysocket.server.BaseListener"/>
+<fullyQualifiedTypeName name="java.lang.Class"/>
+<fullyQualifiedTypeName name="pers.landriesnidis.easysocket.server.manager.BaseSocketManager"/>
+<fullyQualifiedTypeName name="java.net.SocketException"/>
+<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
+<fullyQualifiedTypeName name="pers.landriesnidis.easysocket.server.manager.BasicSocketManager"/>
+<fullyQualifiedTypeName name="java.net.Socket"/>
+<fullyQualifiedTypeName name="pers.landriesnidis.easysocket.server.BaseServerSocketThread"/>
+<fullyQualifiedTypeName name="pers.landriesnidis.easysocket.server.manager.ChatroomSocketManager"/>
+<fullyQualifiedTypeName name="pers.landriesnidis.easysocket.client.SocketTCPConnector"/>
+<fullyQualifiedTypeName name="pers.landriesnidis.easysocket.client.SocketTCPConnector.OnSocketReceiveListener"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
 </qualifiedTypeNameHistroy>

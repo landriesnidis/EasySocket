@@ -16,7 +16,7 @@ public class SocketFileReceiver{
 	private String filename;
 	/**
 	 * 构造一个文件接收器(随机端口号)
-	 * @param filename					文件存放位置及文件名
+	 * @param  filename					文件存放位置及文件名
 	 * @throws FileNotFoundException	文件不存在
 	 * @throws IOException				创建Socket监听发生异常
 	 */
@@ -96,7 +96,7 @@ public class SocketFileReceiver{
         }
     }
 	
-	interface FileReceiveListener{
+	public interface FileReceiveListener{
 		void onFinish();
 	}
 

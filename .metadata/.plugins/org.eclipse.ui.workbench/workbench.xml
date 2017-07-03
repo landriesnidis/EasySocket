@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="20" version="2.0">
+<workbench progressCount="32" version="2.0">
 <workbenchAdvisor/>
 <window height="728" maximized="true" width="1024" x="104" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -8,7 +8,7 @@
 </perspectiveBar>
 <coolbarLayout>
 <coolItem id="group.file" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="188" y="22"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="182" y="22"/>
 <coolItem id="additions" itemType="typeGroupMarker"/>
 <coolItem id="com.genuitec.eclipse.j2eedt.core.ejb" itemType="typeToolBarContribution" x="55" y="22"/>
 <coolItem id="com.genuitec.eclipse.uml.actions" itemType="typeToolBarContribution" x="61" y="22"/>
@@ -30,7 +30,10 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="198" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.ClassFileEditorNoSource" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.ClassFileEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.wb.core.guiEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
@@ -39,10 +42,36 @@
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
 <folder appearance="1" expanded="2">
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+<part id="3"/>
+<part id="4"/>
+</presentation>
 </folder>
 </info>
 </editorArea>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Example_01_CreateServerListener.java" partName="Example_01_CreateServerListener.java" path="E:/GitHub/EasySocket/Example/src/pers/landriesnidis/easysocket_example/server/Example_01_CreateServerListener.java" title="Example_01_CreateServerListener.java" tooltip="Example/src/pers/landriesnidis/easysocket_example/server/Example_01_CreateServerListener.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Example/src/pers/landriesnidis/easysocket_example/server/Example_01_CreateServerListener.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="90"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Example_02_ReceiveFile.java" partName="Example_02_ReceiveFile.java" path="E:/GitHub/EasySocket/Example/src/pers/landriesnidis/easysocket_example/client/Example_02_ReceiveFile.java" title="Example_02_ReceiveFile.java" tooltip="Example/src/pers/landriesnidis/easysocket_example/client/Example_02_ReceiveFile.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Example/src/pers/landriesnidis/easysocket_example/client/Example_02_ReceiveFile.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="22" selectionOffset="199" selectionTopPixel="68"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Example_01_CreateSocketClient.java" partName="Example_01_CreateSocketClient.java" path="E:/GitHub/EasySocket/Example/src/pers/landriesnidis/easysocket_example/client/Example_01_CreateSocketClient.java" title="Example_01_CreateSocketClient.java" tooltip="Example/src/pers/landriesnidis/easysocket_example/client/Example_01_CreateSocketClient.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Example/src/pers/landriesnidis/easysocket_example/client/Example_01_CreateSocketClient.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1588" selectionTopPixel="599"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SocketTCPConnector.java" partName="SocketTCPConnector.java" path="E:/GitHub/EasySocket/EasySocket/src/pers/landriesnidis/easysocket/client/SocketTCPConnector.java" title="SocketTCPConnector.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/client/SocketTCPConnector.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/EasySocket/src/pers/landriesnidis/easysocket/client/SocketTCPConnector.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2029" selectionTopPixel="375"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BaseServerSocketThread.java" partName="BaseServerSocketThread.java" path="E:/GitHub/EasySocket/EasySocket/src/pers/landriesnidis/easysocket/server/BaseServerSocketThread.java" title="BaseServerSocketThread.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/server/BaseServerSocketThread.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/EasySocket/src/pers/landriesnidis/easysocket/server/BaseServerSocketThread.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="532" selectionTopPixel="0"/>
+</editor>
 </editors>
 <views>
 <view id="com.genuitec.eclipse.ui.HTMLView" partName="Web Browser"/>
@@ -54,9 +83,6 @@
 <view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
 <viewState/>
 </view>
-<view id="org.springframework.ide.eclipse.ui.navigator.springExplorer" partName="Spring Explorer">
-<viewState CommonNavigator.LINKING_ENABLED="0" org.springframework.ide.eclipse.ui.navigator.workingsets.showTopLevelWorkingSets="0"/>
-</view>
 <view id="org.eclipse.wst.common.snippets.internal.ui.SnippetsView" partName="Snippets"/>
 <view id="com.genuitec.eclipse.ast.deploy.core.serverview" partName="Servers"/>
 <view id="org.eclipse.ui.views.PropertySheet" partName="Properties">
@@ -67,10 +93,6 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Errors (2 items)"/>
-<category IMemento.internal.id="Errors"/>
-</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="516"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -109,11 +131,13 @@
 </customFilters>
 </viewState>
 </view>
-<view id="org.eclipse.ui.console.ConsoleView" partName="Console"/>
+<view id="org.eclipse.ui.console.ConsoleView" partName="Console">
+<viewState/>
+</view>
 <view id="org.eclipse.jdt.ui.SourceView" partName="Declaration"/>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.PackageExplorer" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="com.genuitec.myeclipse.perspective.MyEclipsePerspectiveFactory" id="com.genuitec.myeclipse.perspective.myeclipseperspective" label="MyEclipse Java Enterprise"/>
 <alwaysOnActionSet id="com.genuitec.myeclipse.actions.deploytools"/>
@@ -214,40 +238,26 @@
 <view id="com.genuitec.eclipse.ast.deploy.core.serverview"/>
 <view id="com.genuitec.eclipse.migration.ui.projectView"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="cvslocation">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.team.ccvs.ui.RepositoriesView" label="LabelNotFound"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="cvslocation">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.team.ccvs.ui.RepositoriesView" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="750" ratioRight="250" relationship="2" relative="cvslocation">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="750" ratioRight="250" relationship="2" relative="cvslocation">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.29187563" ratioLeft="291" ratioRight="706" relationship="2" relative="cvslocation"/>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@64f9c26e" ratio="0.75" ratioLeft="600" ratioRight="200" relationship="2" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@64f9c26e" ratio="0.75" ratioLeft="600" ratioRight="200" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@494bf78c" ratio="0.54950494" ratioLeft="333" ratioRight="273" relationship="4" relative="org.eclipse.ui.internal.ViewStack@64f9c26e">
-<folder activePageID="org.eclipse.ui.views.PropertySheet" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.PropertySheet" label="Properties"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@494bf78c" ratio="0.54950494" ratioLeft="333" ratioRight="273" relationship="4" relative="org.eclipse.ui.internal.ViewStack@64f9c26e">&#x0A;<folder activePageID="org.eclipse.ui.views.PropertySheet" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.PropertySheet" label="Properties"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="bottom" ratio="0.7491749" ratioLeft="454" ratioRight="152" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="com.genuitec.eclipse.migration.ui.projectView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
+<info folder="true" part="bottom" ratio="0.7491749" ratioLeft="454" ratioRight="152" relationship="4" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="com.genuitec.eclipse.migration.ui.projectView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="com.genuitec.eclipse.ui.HTMLView" label="Web Browser"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
@@ -255,8 +265,7 @@
 <page content="com.genuitec.eclipse.migration.ui.projectView" label="Project Migration"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
@@ -265,23 +274,17 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="topleft" ratio="0.39933994" ratioLeft="242" ratioRight="364" relationship="4" relative="cvslocation">
-<folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">
-<page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
+<info folder="true" part="topleft" ratio="0.39933994" ratioLeft="242" ratioRight="364" relationship="4" relative="cvslocation">&#x0A;<folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="Type Hierarchy"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="bottomleft" ratio="0.54950494" ratioLeft="333" ratioRight="273" relationship="4" relative="topleft">
-<folder activePageID="uky.article.imageviewer.views.ImageView" appearance="2" expanded="2">
-<page content="uky.article.imageviewer.views.ImageView" label="Image Preview"/>
+<info folder="true" part="bottomleft" ratio="0.54950494" ratioLeft="333" ratioRight="273" relationship="4" relative="topleft">&#x0A;<folder activePageID="uky.article.imageviewer.views.ImageView" appearance="2" expanded="2">&#x0A;<page content="uky.article.imageviewer.views.ImageView" label="Image Preview"/>
 <page content="org.eclipse.wst.common.snippets.internal.ui.SnippetsView" label="Snippets"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 </presentation>
 </folder>
@@ -389,8 +392,7 @@
 <view id="org.eclipse.jdt.ui.JavadocView"/>
 <view id="org.eclipse.jdt.ui.SourceView"/>
 <view id="com.genuitec.eclipse.migration.ui.projectView"/>
-<view id="org.eclipse.ui.views.ContentOutline"/>
-<view id="org.springframework.ide.eclipse.ui.navigator.springExplorer"/>
+<view id="org.eclipse.ui.console.ConsoleView"/>
 <fastViewBars/>
 <layout>
 <mainWindow>
@@ -415,15 +417,15 @@
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.16752768" ratioLeft="227" ratioRight="1128" relationship="2" relative="left"/>
-<info folder="true" part="bottom" ratio="0.36180905" ratioLeft="216" ratioRight="381" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ProblemView" appearance="2" expanded="2">
+<info part="org.eclipse.ui.editorss" ratio="0.25166053" ratioLeft="341" ratioRight="1014" relationship="2" relative="left"/>
+<info folder="true" part="bottom" ratio="0.6683417" ratioLeft="399" ratioRight="198" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.jdt.ui.JavadocView" label="Javadoc"/>
 <page content="org.eclipse.jdt.ui.SourceView" label="Declaration"/>
 <page content="com.genuitec.eclipse.migration.ui.projectView" label="Project Migration"/>
+<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="LabelNotFound"/>
-<page content="org.eclipse.ui.console.ConsoleView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ProgressView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -431,26 +433,23 @@
 <part id="1"/>
 <part id="2"/>
 <part id="3"/>
+<part id="4"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="right" ratio="0.74975467" ratioLeft="764" ratioRight="255" relationship="2" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info folder="true" part="right" ratio="0.82580644" ratioLeft="896" ratioRight="189" relationship="2" relative="org.eclipse.ui.editorss">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
 <page content="org.eclipse.ui.texteditor.TemplatesView" label="LabelNotFound"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info part="org.springframework.ide.eclipse.aop.ui.navigator.aopReferenceModelNavigator" ratio="0.5" ratioLeft="225" ratioRight="225" relationship="4" relative="right"/>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@f9183d8" ratio="0.5" ratioLeft="225" ratioRight="225" relationship="4" relative="right">
-<folder activePageID="org.springframework.ide.eclipse.ui.navigator.springExplorer" appearance="2" expanded="2">
-<page content="org.springframework.ide.eclipse.ui.navigator.springExplorer" label="Spring Explorer"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-</presentation>
+<folder appearance="2" expanded="2">
+<page content="org.springframework.ide.eclipse.ui.navigator.springExplorer" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 </mainWindow>
@@ -458,7 +457,167 @@
 </perspective>
 </perspectives>
 <workingSets/>
-<navigationHistory/>
+<navigationHistory>
+<editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/EasySocket/src/pers/landriesnidis/easysocket/client/SocketFileReceiver.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Example/src/pers/landriesnidis/easysocket_example/client/Example_02_ReceiveFile.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Example/src/pers/landriesnidis/easysocket_example/client/Example_01_CreateSocketClient.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/EasySocket/src/pers/landriesnidis/easysocket/client/SocketTCPConnector.java"/>
+<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditorNoSource" org.eclipse.jdt.ui.ClassFileIdentifier="=Example/E:\/GitHub\/EasySocket\/release\/EasySocket.jar&lt;pers.landriesnidis.easysocket.client(SocketTCPConnector$OnSocketReceiveListener.class"/>
+<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=Example/E:\/GitHub\/EasySocket\/release\/EasySocket.jar&lt;pers.landriesnidis.easysocket.server(BaseServerSocketThread.class"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/EasySocket/src/pers/landriesnidis/easysocket/server/BaseServerSocketThread.java"/>
+</editors>
+<item historyLabel="SocketFileReceiver.java" index="0">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="SocketTCPConnector.java" index="3">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1592" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="654" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1295" y="29"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="607" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="521" y="23"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1253" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="464" y="3"/>
+</item>
+<item historyLabel="SocketTCPConnector.java" index="3">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="SocketFileReceiver.java" index="0">
+<position info="not_deleted" x="2614" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="464" y="3"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="562" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="464" y="3"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="562" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="533" y="0"/>
+</item>
+<item historyLabel="SocketTCPConnector$OnSocketReceiveListener.class" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="533" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1358" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="562" y="0"/>
+</item>
+<item historyLabel="SocketTCPConnector.java" index="3">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="562" y="0"/>
+</item>
+<item historyLabel="Example_02_ReceiveFile.java" index="1">
+<position info="not_deleted" x="199" y="22"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="562" y="0"/>
+</item>
+<item historyLabel="Example_02_ReceiveFile.java" index="1">
+<position info="not_deleted" x="199" y="22"/>
+</item>
+<item historyLabel="SocketFileReceiver.java" index="0">
+<position info="not_deleted" x="2614" y="0"/>
+</item>
+<item historyLabel="Example_02_ReceiveFile.java" index="1">
+<position info="not_deleted" x="199" y="22"/>
+</item>
+<item historyLabel="SocketTCPConnector.java" index="3">
+<position info="not_deleted" x="316" y="316"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="562" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1067" y="0"/>
+</item>
+<item historyLabel="SocketTCPConnector.java" index="3">
+<position info="not_deleted" x="2029" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1091" y="0"/>
+</item>
+<item historyLabel="SocketTCPConnector.java" index="3">
+<position info="not_deleted" x="2029" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1091" y="0"/>
+</item>
+<item historyLabel="Example_02_ReceiveFile.java" index="1">
+<position info="not_deleted" x="199" y="22"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1091" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1459" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1400" y="7"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1392" y="0"/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position/>
+</item>
+<item historyLabel="Example_01_CreateSocketClient.java" index="2">
+<position info="not_deleted" x="1588" y="0"/>
+</item>
+<item historyLabel="BaseServerSocketThread.class" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="BaseServerSocketThread.java" index="6">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="BaseServerSocketThread.java" index="6">
+<position info="not_deleted" x="2075" y="0"/>
+</item>
+<item historyLabel="BaseServerSocketThread.class" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="BaseServerSocketThread.java" index="6">
+<position info="not_deleted" x="2075" y="0"/>
+</item>
+<item historyLabel="SocketTCPConnector.java" index="3">
+<position info="not_deleted" x="2029" y="0"/>
+</item>
+<item active="true" historyLabel="BaseServerSocketThread.java" index="6">
+<position info="not_deleted" x="2075" y="0"/>
+</item>
+</navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
 <workbenchWindowAdvisor/>
@@ -475,23 +634,38 @@
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ServerListener.java" tooltip="HuHuhusky_Server/src/pers/landriesnidis/huhuhusky/ServerListener.java">
-<persistable path="/HuHuhusky_Server/src/pers/landriesnidis/huhuhusky/ServerListener.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BaseServerSocketThread.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/server/BaseServerSocketThread.java">
+<persistable path="/EasySocket/src/pers/landriesnidis/easysocket/server/BaseServerSocketThread.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Launcher.java" tooltip="HuHuhusky_Server/src/pers/landriesnidis/huhuhusky/Launcher.java">
-<persistable path="/HuHuhusky_Server/src/pers/landriesnidis/huhuhusky/Launcher.java"/>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="BaseServerSocketThread.class" tooltip="pers.landriesnidis.easysocket.server.BaseServerSocketThread">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Example/E:\/GitHub\/EasySocket\/release\/EasySocket.jar&lt;pers.landriesnidis.easysocket.server(BaseServerSocketThread.class"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditorNoSource" name="SocketTCPConnector$OnSocketReceiveListener.class" tooltip="pers.landriesnidis.easysocket.client.SocketTCPConnector$OnSocketReceiveListener">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Example/E:\/GitHub\/EasySocket\/release\/EasySocket.jar&lt;pers.landriesnidis.easysocket.client(SocketTCPConnector$OnSocketReceiveListener.class"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SocketTCPConnector.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/client/SocketTCPConnector.java">
+<persistable path="/EasySocket/src/pers/landriesnidis/easysocket/client/SocketTCPConnector.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Example_01_CreateSocketClient.java" tooltip="Example/src/pers/landriesnidis/easysocket_example/client/Example_01_CreateSocketClient.java">
+<persistable path="/Example/src/pers/landriesnidis/easysocket_example/client/Example_01_CreateSocketClient.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SocketFileReceiver.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/client/SocketFileReceiver.java">
+<persistable path="/EasySocket/src/pers/landriesnidis/easysocket/client/SocketFileReceiver.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Example_01_CreateServerListener.java" tooltip="Example/src/pers/landriesnidis/easysocket_example/server/Example_01_CreateServerListener.java">
+<persistable path="/Example/src/pers/landriesnidis/easysocket_example/server/Example_01_CreateServerListener.java"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditorNoSource" name="SocketFileReceiver.class" tooltip="pers.landriesnidis.easysocket.client.SocketFileReceiver">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=Example/E:\/GitHub\/EasySocket\/release\/EasySocket.jar&lt;pers.landriesnidis.easysocket.client(SocketFileReceiver.class"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ChatroomSocketManager.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/server/manager/ChatroomSocketManager.java">
+<persistable path="/EasySocket/src/pers/landriesnidis/easysocket/server/manager/ChatroomSocketManager.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BaseListener.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/server/BaseListener.java">
 <persistable path="/EasySocket/src/pers/landriesnidis/easysocket/server/BaseListener.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Test.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/client/Test.java">
-<persistable path="/EasySocket/src/pers/landriesnidis/easysocket/client/Test.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Test.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/Test.java">
-<persistable path="/EasySocket/src/pers/landriesnidis/easysocket/Test.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BaseServerSocketThread.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/server/BaseServerSocketThread.java">
-<persistable path="/EasySocket/src/pers/landriesnidis/easysocket/server/BaseServerSocketThread.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="BasicSocketManager.java" tooltip="EasySocket/src/pers/landriesnidis/easysocket/server/manager/BasicSocketManager.java">
+<persistable path="/EasySocket/src/pers/landriesnidis/easysocket/server/manager/BasicSocketManager.java"/>
 </file>
 </mruList>
 </workbench>
