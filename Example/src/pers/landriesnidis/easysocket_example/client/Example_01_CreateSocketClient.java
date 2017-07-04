@@ -47,13 +47,18 @@ public class Example_01_CreateSocketClient {
 		while(true){
 			try{
 				String str = scanner.next();
-				if(str.equals("EXIT"))break;
-				stc.send(str);
+				if(str.equals("EXIT")){
+					scanner.close();
+					stc.close();
+					System.exit(0);
+				}
+				stc.sendString(str);
 			}catch(Exception e){
+				e.printStackTrace();
 				break;
 			}
 		}
 		scanner.close();
-		stc.close();
+//		stc.close();
 	}
 }

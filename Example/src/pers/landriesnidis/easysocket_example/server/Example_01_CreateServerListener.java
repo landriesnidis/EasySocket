@@ -10,7 +10,7 @@ import pers.landriesnidis.easysocket.server.manager.ChatroomSocketManager;
 public class Example_01_CreateServerListener {
 	
 	public static void main(String[] args) {
-		My2Listener listener = new My2Listener(12345);
+		MyListener listener = new MyListener(12345);
 		listener.start();
 	}
 }
@@ -38,11 +38,11 @@ class MyListener extends BaseListener<BaseServerSocketThread>{
 			@Override
 			public void onConnected() {
 				getSocketManager().addSocketThread(this);
-				System.out.println("新终端已接入服务�?" + this.getSocket().getRemoteSocketAddress());
+				System.out.println("新终端已接入服务器：" + this.getSocket().getRemoteSocketAddress());
 			}
 			
 			@Override
-			public void onClose() {
+			public void onClosed() {
 				getSocketManager().delSocketThread(this);
 				System.out.println("终端与服务器失去连接:" + this.getSocket().getRemoteSocketAddress());
 			}
@@ -53,7 +53,7 @@ class MyListener extends BaseListener<BaseServerSocketThread>{
 				for(BaseServerSocketThread bs:getSocketManager().getSocketThreads()){
 					if(!bs.equals(this)){
 						System.out.println("消息转发至[" + bs.getSocket().getRemoteSocketAddress() +"]");
-						bs.sendMessage(strline);
+						bs.sendString(strline);
 					}
 				}
 			}
