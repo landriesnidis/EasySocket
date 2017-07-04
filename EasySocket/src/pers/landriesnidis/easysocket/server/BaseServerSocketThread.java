@@ -6,13 +6,18 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.CharBuffer;
+
+import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter;
+import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter.Check_Mode;
+import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter.Match_State;
 
 public abstract class BaseServerSocketThread extends Thread {
 
 	private final Socket socket;
 	private boolean isRun = true;
 	private String encode = "UTF-8";
-
+	
 	/**
 	 * BaseServerSocketThread是抽象类，如果要直接构造，需要立即实现抽象方法
 	 * 
@@ -21,9 +26,8 @@ public abstract class BaseServerSocketThread extends Thread {
 	 */
 	public BaseServerSocketThread(Socket socket) {
 		this.socket = socket;
-		// 设置启用心跳检测
 		try {
-			socket.setKeepAlive(true); // 启用心跳检测
+			socket.setKeepAlive(true); 	// 启用心跳检测
 			socket.setTcpNoDelay(true); // 禁用nagle算法
 		} catch (SocketException e) {
 
@@ -88,6 +92,23 @@ public abstract class BaseServerSocketThread extends Thread {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	BaseDataAdapter adapter = new BaseDataAdapter() {
+		StringBuffer sb = new StringBuffer();
+		@Override
+		public void execute(char[] ac) {
+			sb.append(ac);
+		}
+		
+		@Override
+		public void complete(BufferedReader br) {
+			System.out.println("数据适配器捕获到的数据:" + sb.toString());
+			sb.delete(0,sb.length());
+		}
+	};
+	
+	
 
 	@Override
 	public void run() {
@@ -105,11 +126,50 @@ public abstract class BaseServerSocketThread extends Thread {
 			close();
 			return;
 		}
+		
+		
 		try {
+			
+			
 			// 返回此套接字的输入流
-			String line = null;
-			while (((line = br.readLine()) != null) && isRun) {
-				onReceiveData(line);
+			
+			
+			//按行读取
+//			String line = "";
+//			while (((line = br.readLine()) != null) && isRun) {
+//				onReceiveData(line);
+//			}
+			
+			//按字读取行
+//			StringBuffer sb = new StringBuffer();
+//			char c;
+//			while(isRun){
+//				c = (char)br.read();
+//				if(c=='\n'){
+//					onReceiveData(sb.toString());
+//					sb.delete(0,sb.length());
+//				}else{
+//					sb.append(c);
+//				}
+//			}
+			
+			//按字读取行（加数据适配器）
+			StringBuffer sb = new StringBuffer();
+			char c;
+			while(isRun){
+				c = (char)br.read();
+				Match_State ms = adapter.checkFlag(c, Check_Mode.CHECKMODE_START);
+				if(ms == Match_State.MATCH_SUCCEED){
+					adapter.trusteeship(br);
+					sb.delete(sb.length()+1-adapter.getStartFlag().length,sb.length());
+					continue;
+				}
+				if(c==(char)10){
+					onReceiveData(sb.toString());
+					sb.delete(0,sb.length());
+				}else{
+					sb.append(c);
+				}
 			}
 		} catch (IOException e) {
 			if(isRun){
