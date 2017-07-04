@@ -12,7 +12,7 @@ import pers.landriesnidis.easysocket.server.BaseServerSocketThread;
 public class BasicSocketManager<S extends BaseServerSocketThread> {
 
 	// Socket通信线程队列
-	protected Vector<S> vecSocketThreads = new Vector<S>();
+	protected Vector<S> vecSocketThreads = null;
 	
 	/**
 	 * 获取Socket队列
@@ -35,6 +35,14 @@ public class BasicSocketManager<S extends BaseServerSocketThread> {
 	 * @param s
 	 */
 	public void addSocketThread(S s){
-		vecSocketThreads.add(s);
+		if(s==null)return;
+		try{
+			vecSocketThreads.add(s);
+		}catch(NullPointerException e){ 
+			if(vecSocketThreads == null){
+				vecSocketThreads = new Vector<S>();
+				vecSocketThreads.add(s);
+			}
+		}
 	}
 }
