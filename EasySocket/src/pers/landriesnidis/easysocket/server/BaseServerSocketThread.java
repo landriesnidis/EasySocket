@@ -5,18 +5,43 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.SocketException;
-import java.nio.CharBuffer;
+import java.util.Vector;
 
 import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter;
-import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter.Check_Mode;
-import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter.Match_State;
+import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter.CHECK_MODE;
+import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter.MATCH_STATE;
 
 public abstract class BaseServerSocketThread extends Thread {
 
+	/**
+	 * 数据处理模式
+	 * READ_LINE 		按行读取
+	 * USE_ADAPTER 		使用数据适配器处理
+	 * AUTO 			自动选择(默认)
+	 */
+	public static enum DATA_RECEPTION_MODE{
+		READ_LINE,
+		USE_FILTER,
+		AUTO
+	}
+	
+	//Socket对象
 	private final Socket socket;
+	//线程结束开关
 	private boolean isRun = true;
+	//字符编码
 	private String encode = "UTF-8";
+	//数据接收模式
+	private DATA_RECEPTION_MODE reception_MODE = DATA_RECEPTION_MODE.AUTO;
+	//数据适配器列表
+	private Vector<BaseDataAdapter> vecAdapters = new Vector<BaseDataAdapter>();;
+	//数据过滤器修改标志
+	private boolean changeFlag_Filter = false;
+	//数据接收模式修改标志
+	private boolean changeFlag_ReceptionMode = false;
+	
 	
 	/**
 	 * BaseServerSocketThread是抽象类，如果要直接构造，需要立即实现抽象方法
@@ -70,7 +95,7 @@ public abstract class BaseServerSocketThread extends Thread {
 	 * 
 	 * @param messgae
 	 */
-	public void sendString(String messgae) {
+	public synchronized void sendString(String messgae) {
 		try {
 			// 返回此套接字的输出流
 			getSocket().getOutputStream().write(
@@ -85,7 +110,11 @@ public abstract class BaseServerSocketThread extends Thread {
 		}
 	}
 
-	public void send(byte[] bytes) {
+	/**
+	 * 发送字节数组
+	 * @param bytes
+	 */
+	public synchronized void send(byte[] bytes) {
 		try {
 			getSocket().getOutputStream().write(bytes);
 		} catch (IOException e) {
@@ -93,28 +122,13 @@ public abstract class BaseServerSocketThread extends Thread {
 		}
 	}
 	
-	
-	BaseDataAdapter adapter = new BaseDataAdapter() {
-		StringBuffer sb = new StringBuffer();
-		@Override
-		public void execute(char[] ac) {
-			sb.append(ac);
-		}
-		
-		@Override
-		public void complete(BufferedReader br) {
-			System.out.println("数据适配器捕获到的数据:" + sb.toString());
-			sb.delete(0,sb.length());
-		}
-	};
-	
-	
-
 	@Override
 	public void run() {
 
 		onConnected();
 		BufferedReader br = null;
+		
+		
 		// 从字符输入流读取文本,创建一个InputStreamReader使用指定的字符集
 		try {
 			br = new BufferedReader(new InputStreamReader(getSocket()
@@ -129,46 +143,23 @@ public abstract class BaseServerSocketThread extends Thread {
 		
 		
 		try {
-			
-			
-			// 返回此套接字的输入流
-			
-			
-			//按行读取
-//			String line = "";
-//			while (((line = br.readLine()) != null) && isRun) {
-//				onReceiveData(line);
-//			}
-			
-			//按字读取行
-//			StringBuffer sb = new StringBuffer();
-//			char c;
-//			while(isRun){
-//				c = (char)br.read();
-//				if(c=='\n'){
-//					onReceiveData(sb.toString());
-//					sb.delete(0,sb.length());
-//				}else{
-//					sb.append(c);
-//				}
-//			}
-			
-			//按字读取行（加数据适配器）
-			StringBuffer sb = new StringBuffer();
-			char c;
-			while(isRun){
-				c = (char)br.read();
-				Match_State ms = adapter.checkFlag(c, Check_Mode.CHECKMODE_START);
-				if(ms == Match_State.MATCH_SUCCEED){
-					adapter.trusteeship(br);
-					sb.delete(sb.length()+1-adapter.getStartFlag().length,sb.length());
-					continue;
-				}
-				if(c==(char)10){
-					onReceiveData(sb.toString());
-					sb.delete(0,sb.length());
-				}else{
-					sb.append(c);
+			//当由于[数据适配器列表]或[数据接收模式]发生改变时,重新进入模式选择环节
+			while(changeFlag_Filter||changeFlag_ReceptionMode){
+				
+				changeFlag_Filter = false;
+				changeFlag_ReceptionMode = false;
+				
+				//数据接受模式选择
+				switch(reception_MODE){
+				case READ_LINE:
+					dataReception_Readline(br);
+					break;
+				case USE_FILTER:
+					dataReception_UseFilter(br);
+					break;
+				case AUTO:
+					dataReception_Auto(br);
+					break;
 				}
 			}
 		} catch (IOException e) {
@@ -185,22 +176,124 @@ public abstract class BaseServerSocketThread extends Thread {
 			close();
 		}
 	}
+	
+	/**
+	 * 数据接收模式：按行读取
+	 * 如果设置的数据适配器则使用适配器
+	 * @param br
+	 * @throws IOException
+	 */
+	private void dataReception_Readline(BufferedReader br) throws IOException{
+		String line = "";
+		while (((line = br.readLine()) != null) && isRun) {
+			onReceiveData(line);
+			//返回模式选择环节
+			if(changeFlag_Filter||changeFlag_ReceptionMode)break;
+		}
+	}
+	
+	/**
+	 * 数据接收模式：使用适配器
+	 * 如果设置的数据适配器则使用适配器
+	 * @param br
+	 * @throws IOException
+	 */
+	private void dataReception_UseFilter(BufferedReader br) throws IOException{
+		StringBuffer sb = new StringBuffer();
+		char c;
+		
+		while(isRun){
+			c = (char)br.read();
+			for(BaseDataAdapter adapter:vecAdapters){
+				MATCH_STATE ms = adapter.checkFlag(c, CHECK_MODE.CHECKMODE_START);
+				//如果匹配成功
+				if(ms == MATCH_STATE.MATCH_SUCCEED){
+					//通过Socket对象的InputStream拿到的BufferedReader对象交由adapter托管
+					//该方法为阻塞方法，只有收到adapter内指定的结束标志时才会继续执行
+					adapter.trusteeship(br);
+					//从缓存中删除adapter的开始标志
+					sb.delete(sb.length()+1-adapter.getStartFlag().length,sb.length());
+					//重新读取一个字节（之前存的是adapter开始标志的最后一个字节）
+					c = (char)br.read();
+					break;
+				}
+			}
+			
+			if(c==(char)10){
+				onReceiveData(sb.toString());
+				sb.delete(0,sb.length());
+			}else{
+				sb.append(c);
+			}
+			//返回模式选择环节
+			if(changeFlag_Filter||changeFlag_ReceptionMode)break;
+		}
+	}
+	
+	/**
+	 * 数据接收模式：自动
+	 * 如果设置的数据适配器则使用适配器
+	 * @param br
+	 * @throws IOException
+	 */
+	private void dataReception_Auto(BufferedReader br) throws IOException{
+		if(vecAdapters.size()>0){
+			dataReception_UseFilter(br);
+		}else{
+			dataReception_Readline(br);
+		}
+	}
+
 
 	/**
 	 * 获取Socket对象
-	 * 
 	 * @return
 	 */
 	public Socket getSocket() {
 		return socket;
 	}
+	
+	/**
+	 * 获取对方的IP地址
+	 * @return
+	 */
+	public SocketAddress getRemoteSocketAddress(){
+		return socket.getRemoteSocketAddress();
+	}
 
 	/**
 	 * 设置字符编码
-	 * 
-	 * @param encode
+	 * @param encode 字符编码名称，默认是"UTF-8"
 	 */
 	public void setEncode(String encode) {
 		this.encode = encode;
+	}
+	
+	/**
+	 * 添加一个数据适配器
+	 * @param adapter
+	 */
+	public void addDataAdapter(BaseDataAdapter adapter) {
+		vecAdapters.add(adapter);
+		changeFlag_Filter = true;
+	}
+	
+	/**
+	 * 移除一个数据适配器
+	 * @param adapter
+	 */
+	public void deleteDataAdapter(BaseDataAdapter adapter) {
+		vecAdapters.remove(adapter);
+		changeFlag_Filter = true;
+	}
+	
+	/**
+	 * 设置数据接收模式
+	 * 默认模式为：Auto
+	 * @param mode
+	 */
+	public void setDataReceptionMode(DATA_RECEPTION_MODE mode) {
+		reception_MODE = mode;
+		changeFlag_ReceptionMode = true;
 	}
 }

@@ -67,6 +67,35 @@ public class SocketTCPConnector extends Thread {
     }
     
     /**
+     * 发送数据
+     * @param ac 
+     */
+    public void send(char[] ac){
+    	if (writer != null) {
+    		writer.write(ac);
+            writer.flush();
+        } else {
+        	listener.onStateChanged(STATUS_CODE_UNCONNECTION);
+        }
+    }
+    
+    /**
+     * 发送数据
+     * @param ab 
+     */
+    public void send(byte[] ab){
+    	if (socket != null || !socket.isConnected()) {
+    		try {
+				socket.getOutputStream().write(ab);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        } else {
+        	listener.onStateChanged(STATUS_CODE_UNCONNECTION);
+        }
+    }
+    
+    /**
      * 获取Socket对象
      * @return
      */

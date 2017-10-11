@@ -48,9 +48,7 @@ public class Example_01_CreateSocketClient {
 			try{
 				String str = scanner.next();
 				if(str.equals("EXIT")){
-					scanner.close();
-					stc.close();
-					System.exit(0);
+					break;
 				}
 				stc.sendString(str);
 			}catch(Exception e){
@@ -59,6 +57,6 @@ public class Example_01_CreateSocketClient {
 			}
 		}
 		scanner.close();
-//		stc.close();
+		stc.close();
 	}
 }

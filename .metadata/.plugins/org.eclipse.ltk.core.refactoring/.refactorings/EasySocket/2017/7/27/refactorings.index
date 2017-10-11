@@ -1,0 +1,15 @@
+1499087598296	Rename method 'sendMessage'
+1499094929766	Rename method 'send'
+1499131881902	Rename field 'index_start'
+1499131893668	Rename method 'checkStartFlag'
+1499132499237	Rename type 'MATCH_STATE'
+1499132517425	Rename type 'CHECK_MODE'
+1499132537442	Rename type 'Match_Static'
+1499132639092	Rename local variable 'r'
+1499215449934	Rename type 'Check_Mode'
+1499215467195	Rename type 'Match_State'
+1499244646826	Delete element
+1499245352556	Copy file
+1499245357784	Copy file
+1499245360248	Delete element
+1499247168101	Rename local variable 'ac'

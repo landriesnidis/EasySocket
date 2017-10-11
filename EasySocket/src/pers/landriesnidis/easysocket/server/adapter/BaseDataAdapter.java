@@ -6,14 +6,14 @@ import java.io.IOException;
 public abstract class BaseDataAdapter {
 	
 	// 匹配状态
-    public static enum Match_State {  
+    public static enum MATCH_STATE {  
     	MATCH_FAILURE, 		//匹配失败
     	MATCH_CONTINUE, 	//匹配持续
     	MATCH_SUCCEED		//匹配成功
       }  
 	
     // 匹配模式
-    public static enum Check_Mode {  
+    public static enum CHECK_MODE {  
     	CHECKMODE_START,	//匹配起始符模式
     	CHECKMODE_END		//匹配结束符模式
     }
@@ -23,22 +23,26 @@ public abstract class BaseDataAdapter {
 	private int index_flag;
 	
 	/**
-	 * 匹配标识符
-	 * 注：这里的算法很简陋，但是在实际情况下，只要标识符不是太过简短，基本不会出现ABABC中匹配ABC会出现的错误
+	 * 根据传入的字节匹配是否标识符
+	 * 
 	 * @param c
 	 * @return
 	 */
-	public Match_State checkFlag(char c, Check_Mode cm){
+	public MATCH_STATE checkFlag(char c, CHECK_MODE cm){
 		//要匹配的标识符
-		char[] flag = (cm==Check_Mode.CHECKMODE_START)?startFlag:endFlag;
+		char[] flag = (cm==CHECK_MODE.CHECKMODE_START)?startFlag:endFlag;
 		//匹配状态
-		Match_State ms = Match_State.MATCH_FAILURE;
-		//开始匹配
+		MATCH_STATE ms = MATCH_STATE.MATCH_FAILURE;
+		//如果新传入的字符与该匹配的位置内容一致
 		if(flag[index_flag] == c){
-			ms = Match_State.MATCH_CONTINUE;
+			//匹配状态为：匹配继续
+			ms = MATCH_STATE.MATCH_CONTINUE;
+			//匹配位后移
 			index_flag++;
+			//如果已匹配的位数与标识符位数一致
 			if(index_flag == flag.length){
-				ms = Match_State.MATCH_SUCCEED;
+				//匹配状态为：匹配成功
+				ms = MATCH_STATE.MATCH_SUCCEED;
 				index_flag=0;
 			}
 		}else{
@@ -49,23 +53,21 @@ public abstract class BaseDataAdapter {
 	
 	/**
 	 * 托管BufferedReader，当遇到结束符时调用complete()，收到的数据传入execute()
+	 * 阻塞方法：只有当收到结束标识符时才会结束
 	 * @param br
 	 * @throws IOException 
 	 */
 	public void trusteeship(BufferedReader br) throws IOException{
 		char c;
-		Match_State ms = Match_State.MATCH_FAILURE;
-		char[] temp = new char[endFlag.length+1];		//预留一个空位
-		int index = 0;
+		MATCH_STATE ms = MATCH_STATE.MATCH_FAILURE;
 		int continueCount = 0;
 		
-		while(ms != Match_State.MATCH_SUCCEED){
+		while(ms != MATCH_STATE.MATCH_SUCCEED){
 			c = (char)br.read();
-			ms = checkFlag(c,Check_Mode.CHECKMODE_END);
+			ms = checkFlag(c,CHECK_MODE.CHECKMODE_END);
 			switch(ms){
 			case MATCH_CONTINUE:
 				if(continueCount<=endFlag.length){
-//					temp[index++] = c;
 					continueCount++;
 				}else{
 					execute(getCharArray(endFlag, continueCount));
@@ -79,9 +81,8 @@ public abstract class BaseDataAdapter {
 					continueCount=0;
 				}
 				//导致匹配失败的字符是否是
-				if(checkFlag(c,Check_Mode.CHECKMODE_END) != Match_State.MATCH_CONTINUE){
+				if(checkFlag(c,CHECK_MODE.CHECKMODE_END) != MATCH_STATE.MATCH_CONTINUE){
 					execute(new char[]{c});
-					index = 0;
 					continueCount=0;
 				}else{
 					continueCount++;
@@ -135,10 +136,18 @@ public abstract class BaseDataAdapter {
 		this.endFlag = endFlag;
 	}
 	
+	/**
+	 * 获取起始标识符
+	 * @return
+	 */
 	public char[] getStartFlag() {
 		return startFlag;
 	}
 	
+	/**
+	 * 获取结束标识符
+	 * @return
+	 */
 	public char[] getEndFlag() {
 		return endFlag;
 	}

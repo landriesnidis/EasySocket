@@ -1,5 +1,6 @@
 package pers.landriesnidis.easysocket_example.server;
 
+import java.net.BindException;
 import java.net.Socket;
 
 import pers.landriesnidis.easysocket.server.BaseListener;
@@ -10,14 +11,20 @@ import pers.landriesnidis.easysocket.server.manager.ChatroomSocketManager;
 public class Example_01_CreateServerListener {
 	
 	public static void main(String[] args) {
-		MyListener listener = new MyListener(12345);
-		listener.start();
+		MyListener listener;
+		try {
+			listener = new MyListener(12345);
+			listener.start();
+		} catch (BindException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
 
 class MyListener extends BaseListener<BaseServerSocketThread>{
 
-	public MyListener(int port) {
+	public MyListener(int port) throws BindException {
 		super(port);
 	}
 	
@@ -38,13 +45,13 @@ class MyListener extends BaseListener<BaseServerSocketThread>{
 			@Override
 			public void onConnected() {
 				getSocketManager().addSocketThread(this);
-				System.out.println("新终端已接入服务器：" + this.getSocket().getRemoteSocketAddress());
+				System.out.println("新终端已接入服务器：" + getRemoteSocketAddress());
 			}
 			
 			@Override
 			public void onClosed() {
 				getSocketManager().delSocketThread(this);
-				System.out.println("终端与服务器失去连接:" + this.getSocket().getRemoteSocketAddress());
+				System.out.println("终端与服务器失去连接:" + getRemoteSocketAddress());
 			}
 			
 			@Override
@@ -64,7 +71,7 @@ class MyListener extends BaseListener<BaseServerSocketThread>{
 
 class My2Listener extends BaseListener<BaseServerSocketThread>{
 	ChatroomSocketManager<BaseServerSocketThread> manager = new ChatroomSocketManager<BaseServerSocketThread>();
-	public My2Listener(int port) {
+	public My2Listener(int port) throws BindException {
 		super(port);
 		setSocketManager(manager);
 	}

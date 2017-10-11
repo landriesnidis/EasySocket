@@ -22,22 +22,19 @@ public abstract class BaseListener<S extends BaseServerSocketThread> extends Thr
 	/**
 	 * 构造方法
 	 * @param port	用于监听的端口号
+	 * @throws PortOccupiedException 
+	 * @throws IOException 
 	 */
-	public BaseListener(int port) {
+	public BaseListener(int port) throws BindException{
 		this.localPort = port;
+		try {
+			serverSocket = new ServerSocket(port);
+		} catch (IOException e) {
+			throw new BindException(String.format("Port %d is in use, or the requested local address could not be assigned.", port));
+		}
 	}
 
 	public void run() {
-		try {
-			serverSocket = new ServerSocket(localPort);
-		} catch (BindException e) {
-			System.err.println("监听器开启失败,端口(" + localPort + ")已被占用!");
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		
 		try {
 			// 当开始侦听时触发该方法(抽象方法)
 			onStart();

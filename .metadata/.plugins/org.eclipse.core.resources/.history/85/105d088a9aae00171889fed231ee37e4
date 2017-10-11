@@ -1,0 +1,119 @@
+package pers.landriesnidis.kmputils;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+/**
+ * 
+ * @author Landriesnidis
+ * @version 2017年10月10日18:42:42
+ */
+public class KMPFilter {
+
+	private final BufferedReader reader;
+	private final byte[] arrStartTag,arrEndTag;
+	private DataFilterListener listener;
+	
+	
+	public interface DataFilterListener{
+		/**
+		 * 通过过滤器的正常字符串
+		 * @param str
+		 */
+		void onPassed(String str);
+		/**
+		 * 被捕获到的字符串
+		 * @param str
+		 */
+		void onCaptured(String str);
+		/**
+		 * 当结束全部数据的读取
+		 * @param str
+		 */
+		void onFinished();
+	}
+
+	public KMPFilter(BufferedReader bufferedReader,byte[] arrStartTag,byte[] arrEndTag) {
+		this.reader = bufferedReader;
+		this.arrStartTag = arrStartTag.clone();
+		this.arrEndTag = arrEndTag.clone();
+	}
+	
+	/**
+	 * 设置监听器
+	 * @param listener
+	 */
+	public void setListener(DataFilterListener listener) {
+		this.listener = listener;
+	}
+	
+	public void filtrate() throws IOException{
+		
+		char[] arrCharStartTag = new String(arrStartTag).toCharArray();
+		char[] arrCharEndTag = new String(arrEndTag).toCharArray();
+		
+		int index = 0;
+		String content = reader.readLine();
+		
+		try {
+			while(content!=null){
+				//查询剩余字符串中是否包含结束标记，找到后跳出循环
+				while((index = CharsKMP(content.toCharArray(), arrCharStartTag))==-1){
+					//未找到开始标记
+					//通过回调接口返回普通信息
+					listener.onPassed(content);
+					//再次按行读取字符串
+					content = reader.readLine();
+				}
+				listener.onPassed(content.substring(0,index-1));
+				content = new String(content.substring(index+arrCharStartTag.length-1));
+				
+				//查询剩余字符串中是否包含结束标记，找到后跳出循环
+				while((index = CharsKMP(content.toCharArray(), arrCharEndTag))==-1){
+					//未找到结束标记
+					//通过回调接口返回捕获到的内容
+					listener.onCaptured(content);
+					//再次按行读取字符串
+					content = reader.readLine();
+				}
+				//通过回调接口返回结束标记之前的字符串
+				listener.onCaptured(content.substring(0,index-1));
+				content = new String(content.substring(index+arrCharEndTag.length-1));
+			}
+		} catch (NullPointerException e) {
+			//忽略content = reader.readLine()引发的空指针异常
+			if(content!=null){
+				e.printStackTrace();
+			}
+		}
+		
+		listener.onFinished();
+		return;
+	}
+	
+	/**
+	 * 使用KMP算法查找标记在源数组中的位置
+	 * @param source
+	 * @param tag
+	 * @return
+	 */
+	private int CharsKMP(char[] source,char[] tag){
+		int i=0,j=0;
+		while(i<=source.length-tag.length+1 && j<tag.length){
+			if(source[i]==tag[j]){
+				i++;j++;
+			}else{
+				i=i-j+1;
+				j=0;
+			}
+		}
+		if(i<=source.length && j==tag.length){
+			return i-j+1;
+		}else{
+			return -1;
+		}
+	}
+	
+}
+
+
