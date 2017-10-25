@@ -1,0 +1,85 @@
+package pers.landriesnidis.easysocket.server.filter;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+
+/**
+ * 
+ * @author Landriesnidis
+ * @version 2017年10月10日18:42:42
+ */
+public class FileFilter extends BaseFilter{
+
+	private FileFilterListener listener;
+	private char[] arrCharStartTag;
+	private char[] arrCharEndTag;
+	private File output;
+	private long fileLength;
+	/**
+	 * 数据过滤器接口
+	 * @author Landriesnidis
+	 */
+	public interface FileFilterListener{
+		/**
+		 * 通过标签信息返回文件长度
+		 * @param str
+		 */
+		long getFileLength(String tag);
+		/**
+		 * 被捕获到的字符串
+		 * @param str
+		 */
+		void onCaptured(String str);
+		/**
+		 * 当结束全部数据的读取
+		 * @param str
+		 */
+		void onFinished(File file);
+	}
+
+	public FileFilter(BufferedReader bufferedReader,String startTag,String charEndTag,File outputFile) {
+		super(bufferedReader);
+		arrCharStartTag = startTag.toCharArray();
+		arrCharEndTag = charEndTag.toCharArray();
+		
+		//如果文件存在则删除
+		if(outputFile.exists()){
+			outputFile.delete();
+		}
+		//创建新文件
+		try {
+			outputFile.createNewFile();
+			output = outputFile;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 设置监听器
+	 * @param listener
+	 */
+	public void setListener(FileFilterListener listener) {
+		this.listener = listener;
+	}
+	
+	public void filtrate(BufferedReader br) throws IOException{
+		filtrate(br,reader.readLine());
+	}
+	
+	public void filtrate(BufferedReader br,String content) throws IOException{
+		int index = 0;
+		index = KMP.kmp(arrCharStartTag, new String(content).toCharArray());
+		listener.onFinished(output);
+		return;
+	}
+
+	@Override
+	public boolean checkTag(String content) {
+		return content.indexOf(new String(arrCharStartTag))>=0;
+	}
+	
+}
+
+

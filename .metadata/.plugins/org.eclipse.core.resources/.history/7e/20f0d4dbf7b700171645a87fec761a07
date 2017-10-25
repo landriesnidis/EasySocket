@@ -1,0 +1,131 @@
+package pers.landriesnidis.easysocket.server.io;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+
+public class Test {
+	public static void main(String[] args) throws IOException {
+		//filterString();
+		CharReadFile();
+	}
+	
+	public static void CharReadFile() throws IOException{
+		//FileReader fr = new FileReader("F:\\lena.jpg");//F:\\InputStreamReader_input.txt
+		BufferedReader br = new BufferedReader(fr);
+		File outFile = new File("F:\\lena_copy.jpg");//F:\\InputStreamReader_output.txt
+		FileOutputStream fos = new FileOutputStream(outFile);
+//		FileWriter fw = new FileWriter(outFile);
+		if(outFile.exists()){
+			outFile.delete();		
+		}
+		outFile.createNewFile();
+//		char[] buf = new char[2048];
+//		int len = -1;
+//		while((len = fr.read(buf, 0, 2048))!=-1){
+			//fos.write(getBytes(buf),0,len);
+//			fos.write(new String(buf,0,len).getBytes());
+			
+//		}
+		
+		String line;
+		while((line = br.readLine())!=null){
+			fos.write(StringToByteArray(line));
+		}
+		
+		fos.flush();
+		fos.close();
+		br.close();
+	}
+	
+	
+	
+	private static byte[] getBytes(char[] chars) {
+		Charset cs = Charset.forName("UTF-8");
+		CharBuffer cb = CharBuffer.allocate(chars.length);
+		cb.put(chars);
+		cb.flip();
+		ByteBuffer bb = cs.encode(cb);
+
+		return bb.array();
+
+	}
+	
+	public static byte[] StringToByteArray(String line){
+		char[] cb = line.toCharArray();
+		return StringToByteArray(cb);
+	}
+	public static byte[] StringToByteArray(char[] cb){
+		ByteBuffer buffer = ByteBuffer.allocate(cb.length*2);
+		byte[] temp;
+		for(int i=0;i<cb.length;i++){
+			temp = charToByte(cb[i]);
+//			try {
+				buffer.put(temp[0]);
+				buffer.put(temp[1]);
+//			} catch (Exception e) {
+//				System.out.println(i);
+//			}
+		}
+		return buffer.array();
+	}
+	
+	 
+	public static byte[] charToByte(char c) {
+		byte[] b = new byte[2];
+		b[0] = (byte) ((c & 0xFF00) >> 8);
+		b[1] = (byte) (c & 0xFF);
+		return b;
+	}
+	
+	public static void test() throws IOException{
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(new File("F:\\lena.jpg")));
+		File outFile = new File("F:\\lena_copy.jpg");
+		FileOutputStream fos = new FileOutputStream(outFile);
+		if(outFile.exists()){
+			outFile.delete();		
+		}
+		outFile.createNewFile();
+		int len=-1;
+		char[] cbuf = new char[1024];
+		while((len=isr.read(cbuf))!=-1){
+//			for(int i=0;i<len;i++){
+//				cbuf[i];
+//			}
+			fos.write(new String(cbuf, 0, len).getBytes());
+			fos.flush();
+		}
+		isr.close();
+		fos.close();
+	}
+	
+	public static void filterString() throws IOException{
+		long startTime = System.currentTimeMillis();    //获取开始时间
+		//--------------------------------------------------------------------------------------------------------------------
+		char[] cbuf = new char[20];
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(new File("F:\\InputStreamReader_input.txt")),"utf-8");
+		BufferedReader br = new BufferedReader(isr,8);
+		String str;
+		int i=1;
+		while(i<=1){
+			str = br.readLine();
+			System.out.println("第" + i + "句：" + str);
+			++i;
+		}
+		System.out.println("缓存数据：" + new String(br.readBufferChars()));
+		isr.read(cbuf);
+		System.out.println("输入流读取数据：" + new String(cbuf));
+		
+		//--------------------------------------------------------------------------------------------------------------------
+		long endTime = System.currentTimeMillis();    //获取结束时间
+		System.out.println("程序运行时间：" + (endTime - startTime)/1000.0 + "s");    //输出程序运行时间
+	}
+}

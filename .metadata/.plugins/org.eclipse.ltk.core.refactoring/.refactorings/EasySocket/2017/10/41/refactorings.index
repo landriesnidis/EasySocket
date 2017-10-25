@@ -1,3 +1,31 @@
 1507734569446	Rename enum constant 'USE_ADAPTER'
 1507734640895	Rename field 'changeFlag_Adapters'
 1507735121467	Rename method 'dataReception_UseAdapter'
+1507789748242	Rename method 'addDataAdapter'
+1507789769952	Rename local variable 'adapter'
+1507789798963	Rename method 'deleteDataAdapter'
+1507789806396	Rename local variable 'adapter'
+1507790898833	Rename local variable 'adapter'
+1507790905075	Rename local variable 'Filter'
+1507790976174	Rename field 'vecAdapters'
+1507793229338	Copy compilation unit
+1507804402810	Rename type 'StringFilter'
+1507804722553	Rename type 'KMPFilter'
+1507807787055	Delete elements
+1507808655454	Rename type 'ReadLineFilter'
+1507809746951	Delete element
+1507812112005	Rename type 'BaseFilter'
+1507812178112	Rename type 'StringDataFilter'
+1507812257433	Copy compilation unit
+1507817288541	Rename method 'dataReception_UseFilter'
+1507817878042	Rename field 'vecStringFilters'
+1507817886581	Rename field 'vecBytesFilters'
+1507818002744	Rename enum constant 'USE_FILTER'
+1507818553663	Copy compilation unit
+1507972822234	Rename local variable 'str'
+1507973423398	Delete element
+1507973446612	Rename method 'dataReception_UseStringFilter'
+1507973468071	Rename field 'alstStringFilters'
+1507973485575	Rename type 'BaseStringFilter'
+1507973635744	Delete element
+1507973660711	Rename type 'LineStringFilter'

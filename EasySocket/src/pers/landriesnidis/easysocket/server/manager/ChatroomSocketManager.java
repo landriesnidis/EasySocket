@@ -46,6 +46,12 @@ public class ChatroomSocketManager<S extends BaseServerSocketThread> extends Bas
 			public void onClosed() {
 				delSocketThread((S) this);
 			}
+
+			@Override
+			public void onReceiveData(byte[] arr, int length) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		return st;
 	}

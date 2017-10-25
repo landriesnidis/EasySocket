@@ -1,0 +1,231 @@
+package pers.landriesnidis.easysocket.server;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketException;
+import java.util.ArrayList;
+
+import pers.landriesnidis.easysocket.server.filter.BaseFilter;
+
+public abstract class BaseServerSocketThread extends Thread {
+
+	/**
+	 * 数据处理模式
+	 * READ_LINE 		按行读取
+	 * USE_ADAPTER 		使用数据适配器处理
+	 * AUTO 			自动选择(默认)
+	 */
+	public static enum DATA_RECEPTION_MODE{
+		READ_LINE,
+		STRING_FILTER,
+		BYTES_FILTER
+	}
+	
+	//Socket对象
+	private final Socket socket;
+	//线程结束开关
+	private boolean isRun = true;
+	//字符编码
+	private String encode = "UTF-8";
+	//数据接收模式
+	private DATA_RECEPTION_MODE reception_MODE = DATA_RECEPTION_MODE.READ_LINE;
+	//数据适配器列表
+	private BaseFilter filter;
+	//数据过滤器修改标志
+	private boolean changeFlag_Filter = false;
+	//数据接收模式修改标志
+	private boolean changeFlag_ReceptionMode = false;
+	
+	
+	/**
+	 * BaseServerSocketThread是抽象类，如果要直接构造，需要立即实现抽象方法
+	 * 
+	 * @param socket
+	 *            用于通信的socket对象
+	 */
+	public BaseServerSocketThread(Socket socket) {
+		this.socket = socket;
+		try {
+			socket.setKeepAlive(true); 	// 启用心跳检测
+			socket.setTcpNoDelay(true); // 禁用nagle算法
+		} catch (SocketException e) {
+
+		}
+	}
+
+	/**
+	 * 结束线程
+	 */
+	public void close() {
+		isRun = false;
+		try {
+			if (!socket.isClosed()||socket.isConnected())
+				socket.close();
+		} catch (IOException e) {
+		}
+		interrupt(); // 结束线程
+		onClosed();	
+	}
+
+	/**
+	 * 接收Socket客户端发来的数据
+	 * 
+	 * @param strline
+	 */
+	public abstract void onReceiveData(String strline);
+
+	/**
+	 * 成功建立连接
+	 */
+	public abstract void onConnected();
+
+	/**
+	 * 断开连接
+	 */
+	public abstract void onClosed();
+
+	/**
+	 * 发送字符串
+	 * 
+	 * @param messgae
+	 */
+	public synchronized void sendString(String messgae) {
+		try {
+			// 返回此套接字的输出流
+			getSocket().getOutputStream().write(
+					(messgae + "\n").getBytes(encode));
+		} catch (UnsupportedEncodingException e) {
+			System.err.println("字符编码设置有误!");
+			e.printStackTrace();
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			close();
+		}
+	}
+
+	/**
+	 * 发送字节数组
+	 * @param bytes
+	 */
+	public synchronized void send(byte[] bytes) {
+		try {
+			getSocket().getOutputStream().write(bytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void run() {
+
+		onConnected();
+		BufferedReader br = null;
+		
+		
+		// 从字符输入流读取文本,创建一个InputStreamReader使用指定的字符集
+		try {
+			br = new BufferedReader(new InputStreamReader(getSocket()
+					.getInputStream(), encode));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+			close();
+			return;
+		}
+		
+		
+		try {
+			//当由于[数据适配器列表]或[数据接收模式]发生改变时,重新进入模式选择环节
+			while(changeFlag_Filter||changeFlag_ReceptionMode){
+				
+				changeFlag_Filter = false;
+				changeFlag_ReceptionMode = false;
+				
+				//数据接受模式选择
+				switch(reception_MODE){
+				case READ_LINE:
+					dataReception_Readline(br);
+					break;
+				case READ_BYTES:
+					dataReception_UseFilter(br);
+					break;
+				}
+			}
+		} catch (IOException e) {
+			if(isRun){
+				//连接意外中断导致关闭
+			}else{
+				//主动关闭
+			}
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+			}
+			close();
+		}
+	}
+	
+	/**
+	 * 数据接收模式：按行读取
+	 * 如果设置的数据适配器则使用适配器
+	 * @param br
+	 * @throws IOException
+	 */
+	private void dataReception_Readline(BufferedReader br) throws IOException{
+		String line = "";
+		while (((line = br.readLine()) != null) && isRun) {
+			onReceiveData(line);
+			//返回模式选择环节
+			if(changeFlag_Filter||changeFlag_ReceptionMode)break;
+		}
+	}
+	
+	/**
+	 * 数据接收模式：使用字符串适配器
+	 * 如果设置的数据适配器则使用适配器
+	 * @param br
+	 * @throws IOException
+	 */
+	private void dataReception_UseFilter(BufferedReader br) throws IOException{
+		while(isRun){
+			String content = br.readLine();
+			if(filter.checkTag(content)){
+				filter.filtrate(br,content);
+			}
+			//返回模式选择环节
+			if(changeFlag_Filter||changeFlag_ReceptionMode)break;
+		}
+	}
+	
+	/**
+	 * 获取Socket对象
+	 * @return
+	 */
+	public Socket getSocket() {
+		return socket;
+	}
+	
+	/**
+	 * 获取对方的IP地址
+	 * @return
+	 */
+	public SocketAddress getRemoteSocketAddress(){
+		return socket.getRemoteSocketAddress();
+	}
+
+	/**
+	 * 设置字符编码
+	 * @param encode 字符编码名称，默认是"UTF-8"
+	 */
+	public void setEncode(String encode) {
+		this.encode = encode;
+	}
+	
+}

@@ -42,6 +42,8 @@
 		<item value="600" key="width"/>
 	</section>
 	<section name="quick_assist_proposal_size">
+		<item value="387" key="size.x"/>
+		<item value="276" key="size.y"/>
 	</section>
 	<section name="ClasspathContainerSelectionPage">
 		<item value="2" key="index"/>
@@ -62,14 +64,6 @@
 	</section>
 	<section name="JavaElementSearchActions">
 	</section>
-	<section name="org.eclipse.ltk.ui.refactoring.settings">
-		<item value="*" key="patterns"/>
-		<item value="false" key="updateQualifiedNames"/>
-		<item value="false" key="renameSubpackages"/>
-		<item value="1" key="updateSimilarElementsMatchStrategy"/>
-		<item value="false" key="updateTextualMatches"/>
-		<item value="false" key="updateSimilarElements"/>
-	</section>
 	<section name="NewClassWizardPage">
 		<item value="false" key="create_constructor"/>
 		<item value="true" key="create_unimplemented"/>
@@ -77,5 +71,13 @@
 	</section>
 	<section name="RenameInformationPopup">
 		<item value="2" key="snap_position"/>
+	</section>
+	<section name="org.eclipse.ltk.ui.refactoring.settings">
+		<item value="*" key="patterns"/>
+		<item value="false" key="updateQualifiedNames"/>
+		<item value="false" key="renameSubpackages"/>
+		<item value="1" key="updateSimilarElementsMatchStrategy"/>
+		<item value="false" key="updateTextualMatches"/>
+		<item value="false" key="updateSimilarElements"/>
 	</section>
 </section>

@@ -1,0 +1,13 @@
+package pers.landriesnidis.easysocket.server.io;
+
+import java.io.BufferedReader;
+import java.io.Reader;
+
+public class StringBufferReader extends BufferedReader{
+
+	public StringBufferReader(Reader in) {
+		super(in);
+		// TODO Auto-generated constructor stub
+	}
+
+}

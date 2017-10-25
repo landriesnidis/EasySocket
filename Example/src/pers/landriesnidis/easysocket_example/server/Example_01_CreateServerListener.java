@@ -64,6 +64,12 @@ class MyListener extends BaseListener<BaseServerSocketThread>{
 					}
 				}
 			}
+
+			@Override
+			public void onReceiveData(byte[] arr, int length) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 		return bsst;
 	}

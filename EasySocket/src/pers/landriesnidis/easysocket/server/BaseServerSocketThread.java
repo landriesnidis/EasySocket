@@ -1,17 +1,14 @@
 package pers.landriesnidis.easysocket.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
-import java.util.Vector;
 
-import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter;
-import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter.CHECK_MODE;
-import pers.landriesnidis.easysocket.server.adapter.BaseDataAdapter.MATCH_STATE;
+import pers.landriesnidis.easysocket.server.io.BufferedReader;
 
 public abstract class BaseServerSocketThread extends Thread {
 
@@ -23,8 +20,7 @@ public abstract class BaseServerSocketThread extends Thread {
 	 */
 	public static enum DATA_RECEPTION_MODE{
 		READ_LINE,
-		USE_FILTER,
-		AUTO
+		READ_BYTES
 	}
 	
 	//Socket对象
@@ -34,14 +30,11 @@ public abstract class BaseServerSocketThread extends Thread {
 	//字符编码
 	private String encode = "UTF-8";
 	//数据接收模式
-	private DATA_RECEPTION_MODE reception_MODE = DATA_RECEPTION_MODE.AUTO;
-	//数据适配器列表
-	private Vector<BaseDataAdapter> vecAdapters = new Vector<BaseDataAdapter>();;
-	//数据过滤器修改标志
-	private boolean changeFlag_Filter = false;
+	private DATA_RECEPTION_MODE receptionMode = DATA_RECEPTION_MODE.READ_LINE;
 	//数据接收模式修改标志
-	private boolean changeFlag_ReceptionMode = false;
-	
+	private boolean isReceptionModeChanged = false;
+	//以字节数组方式接收数据时数组的单次最大长度
+	private int intBytesMaxLength = 2048;
 	
 	/**
 	 * BaseServerSocketThread是抽象类，如果要直接构造，需要立即实现抽象方法
@@ -74,11 +67,18 @@ public abstract class BaseServerSocketThread extends Thread {
 	}
 
 	/**
-	 * 接收Socket客户端发来的数据
+	 * 接收Socket客户端发来的字符串数据
 	 * 
 	 * @param strline
 	 */
 	public abstract void onReceiveData(String strline);
+	
+	/**
+	 * 接收Socket客户端发来的字节数组数据
+	 * 
+	 * @param strline
+	 */
+	public abstract void onReceiveData(byte[] arr,int length);
 
 	/**
 	 * 成功建立连接
@@ -126,51 +126,33 @@ public abstract class BaseServerSocketThread extends Thread {
 	public void run() {
 
 		onConnected();
-		BufferedReader br = null;
-		
-		
-		// 从字符输入流读取文本,创建一个InputStreamReader使用指定的字符集
-		try {
-			br = new BufferedReader(new InputStreamReader(getSocket()
-					.getInputStream(), encode));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-			close();
-			return;
-		}
-		
 		
 		try {
-			//当由于[数据适配器列表]或[数据接收模式]发生改变时,重新进入模式选择环节
-			while(changeFlag_Filter||changeFlag_ReceptionMode){
+			//当[数据接收模式]发生改变时,重新进入模式选择环节
+			while(isReceptionModeChanged){
 				
-				changeFlag_Filter = false;
-				changeFlag_ReceptionMode = false;
+				isReceptionModeChanged = false;
 				
 				//数据接受模式选择
-				switch(reception_MODE){
+				switch(receptionMode){
 				case READ_LINE:
-					dataReception_Readline(br);
+					dataReception_Readline(getSocket().getInputStream());
 					break;
-				case USE_FILTER:
-					dataReception_UseFilter(br);
-					break;
-				case AUTO:
-					dataReception_Auto(br);
+				case READ_BYTES:
+					dataReception_ReadBytes(getSocket().getInputStream());
 					break;
 				}
 			}
 		} catch (IOException e) {
 			if(isRun){
 				//连接意外中断导致关闭
+				e.printStackTrace();
 			}else{
 				//主动关闭
 			}
 		} finally {
 			try {
-				br.close();
+				socket.close();
 			} catch (IOException e) {
 			}
 			close();
@@ -183,68 +165,43 @@ public abstract class BaseServerSocketThread extends Thread {
 	 * @param br
 	 * @throws IOException
 	 */
-	private void dataReception_Readline(BufferedReader br) throws IOException{
+	private void dataReception_Readline(InputStream is) throws IOException{
 		String line = "";
+		BufferedReader br = null;
+		
+		try {
+			br = new BufferedReader(new InputStreamReader(getSocket().getInputStream(), encode),intBytesMaxLength);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		while (((line = br.readLine()) != null) && isRun) {
 			onReceiveData(line);
 			//返回模式选择环节
-			if(changeFlag_Filter||changeFlag_ReceptionMode)break;
+			if(isReceptionModeChanged){
+				onReceiveData(new String(br.readBufferChars()));
+				break;
+			}
 		}
 	}
 	
 	/**
-	 * 数据接收模式：使用适配器
+	 * 数据接收模式：使用字符串适配器
 	 * 如果设置的数据适配器则使用适配器
 	 * @param br
 	 * @throws IOException
 	 */
-	private void dataReception_UseFilter(BufferedReader br) throws IOException{
-		StringBuffer sb = new StringBuffer();
-		char c;
-		
-		while(isRun){
-			c = (char)br.read();
-			for(BaseDataAdapter adapter:vecAdapters){
-				MATCH_STATE ms = adapter.checkFlag(c, CHECK_MODE.CHECKMODE_START);
-				//如果匹配成功
-				if(ms == MATCH_STATE.MATCH_SUCCEED){
-					//通过Socket对象的InputStream拿到的BufferedReader对象交由adapter托管
-					//该方法为阻塞方法，只有收到adapter内指定的结束标志时才会继续执行
-					adapter.trusteeship(br);
-					//从缓存中删除adapter的开始标志
-					sb.delete(sb.length()+1-adapter.getStartFlag().length,sb.length());
-					//重新读取一个字节（之前存的是adapter开始标志的最后一个字节）
-					c = (char)br.read();
-					break;
-				}
-			}
-			
-			if(c==(char)10){
-				onReceiveData(sb.toString());
-				sb.delete(0,sb.length());
-			}else{
-				sb.append(c);
-			}
+	private void dataReception_ReadBytes(InputStream is) throws IOException{
+		byte[] buf = new byte[intBytesMaxLength];
+		int length = 0;
+		while((length=is.read(buf, 0, intBytesMaxLength))!=-1){
+			onReceiveData(buf,length);
 			//返回模式选择环节
-			if(changeFlag_Filter||changeFlag_ReceptionMode)break;
+			if(isReceptionModeChanged)break;
 		}
 	}
 	
-	/**
-	 * 数据接收模式：自动
-	 * 如果设置的数据适配器则使用适配器
-	 * @param br
-	 * @throws IOException
-	 */
-	private void dataReception_Auto(BufferedReader br) throws IOException{
-		if(vecAdapters.size()>0){
-			dataReception_UseFilter(br);
-		}else{
-			dataReception_Readline(br);
-		}
-	}
-
-
 	/**
 	 * 获取Socket对象
 	 * @return
@@ -270,30 +227,35 @@ public abstract class BaseServerSocketThread extends Thread {
 	}
 	
 	/**
-	 * 添加一个数据适配器
-	 * @param adapter
+	 * 设置数据接收的模式，默认值为DATA_RECEPTION_MODE.READ_LINE（以字符串形式按行读取）
+	 * @param receptionMode
 	 */
-	public void addDataAdapter(BaseDataAdapter adapter) {
-		vecAdapters.add(adapter);
-		changeFlag_Filter = true;
+	public void setReceptionMode(DATA_RECEPTION_MODE receptionMode) {
+		this.receptionMode = receptionMode;
 	}
 	
 	/**
-	 * 移除一个数据适配器
-	 * @param adapter
+	 * 获取数据接收的模式
+	 * @return
 	 */
-	public void deleteDataAdapter(BaseDataAdapter adapter) {
-		vecAdapters.remove(adapter);
-		changeFlag_Filter = true;
+	public DATA_RECEPTION_MODE getReceptionMode() {
+		return receptionMode;
 	}
 	
 	/**
-	 * 设置数据接收模式
-	 * 默认模式为：Auto
-	 * @param mode
+	 * 设置以字符数组方式接收数据时单次接受的数组最大长度，默认值为2048
+	 * @param intByteArrayLength
 	 */
-	public void setDataReceptionMode(DATA_RECEPTION_MODE mode) {
-		reception_MODE = mode;
-		changeFlag_ReceptionMode = true;
+	public void setBytesMaxLength(int intByteArrayLength) {
+		this.intBytesMaxLength = intByteArrayLength;
 	}
+	
+	/**
+	 * 获取以字符数组方式接收数据时单次接受的数组最大长度
+	 * @return
+	 */
+	public int getBytesMaxLength() {
+		return intBytesMaxLength;
+	}
+	
 }

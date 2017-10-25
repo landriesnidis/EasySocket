@@ -1,0 +1,5 @@
+package pers.landriesnidis.easysocket.server.io;
+
+public class StringBufferReader {
+
+}

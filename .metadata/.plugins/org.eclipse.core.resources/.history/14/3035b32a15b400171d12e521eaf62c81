@@ -1,0 +1,16 @@
+package pers.landriesnidis.easysocket.server.io;
+
+import java.io.BufferedReader;
+import java.io.Reader;
+
+public class StringBufferReader extends BufferedReader{
+
+	public StringBufferReader(Reader in) {
+		super(in);
+	}
+	
+	public StringBufferReader(Reader in,int size) {
+		super(in, size);
+	}
+
+}
